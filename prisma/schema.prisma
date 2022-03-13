@@ -16,7 +16,7 @@ model Courses {
   teacher       Teachers @relation(fields: [fk_id_teacher], references: [id])
   fk_id_teacher String   @unique
 
-  CoursesModules CoursesModules[]
+  modules CoursesModules[]
   @@map("courses")
 }
 
@@ -46,11 +46,12 @@ model Books {
 }
 
 model Modules {
-  id             String           @id @default(uuid())
-  name           String           @unique
-  description    String?
-  created_at     DateTime         @default(now())
-  CoursesModules CoursesModules[]
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
+
+  courses CoursesModules[]
 
   @@map("modules")
 }
@@ -58,9 +59,9 @@ model Modules {
 model CoursesModules {
   id           String   @id @default(uuid())
   fk_id_course String
-  courses      Courses  @relation(fields: [fk_id_course], references: [id])
+  course       Courses  @relation(fields: [fk_id_course], references: [id])
   fk_id_module String
-  modules      Modules  @relation(fields: [fk_id_module], references: [id])
+  module       Modules  @relation(fields: [fk_id_module], references: [id])
   created_at   DateTime @default(now())
 
   @@map("courses_modules")
